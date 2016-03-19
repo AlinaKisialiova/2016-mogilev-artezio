@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AdviceListRepository extends JpaRepository<AdviceList, Long>, JpaSpecificationExecutor<AdviceList> {
+
+    AdviceList findByUserIdAndEndDateIsNull(Long userId);
 }

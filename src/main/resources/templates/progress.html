@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container task-progress">
+    <h3 class="text-center">
+        Ваше настроение
+    </h3>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="progress">
+                <div class="progress-bar" style="width: 50%" th:style="'width: ' + ${currentUser.user.mood} + '%'"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="jumbotron">
+    <div class="container">
+        <div class="row" th:if="${activeTask} eq null">
+            <div class="col-md-12">
+                <h2>
+                    На данный момент нет активных задач
+                    <a href="/task" th:href="@{/task}" class="btn btn-primary btn-lg pull-right">
+                        Создать
+                    </a>
+                </h2>
+            </div>
+        </div>
+        <div class="row" th:if="${activeTask} ne null">
+            <h3>У вас есть незавершенное задание</h3>
+            <div class="col-md-3">
+                <table class="table emo-result-table">
+                    <tr th:each="emotion : ${activeTask.emotions}">
+                        <td class="text-right" style="width: 50%" th:text="${emotion.type.title}">keyvalue</td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar" th:style="'width: ' + ${emotion.value} + '%'"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-7">
+                    <span th:each="complete: ${activeTask.itemComplete}"
+                          th:class="${complete} ? 'task-status-done glyphicon glyphicon-ok' :
+                                'task-status-undefined glyphicon glyphicon-question-sign'"></span>
+            </div>
+            <div class="col-md-2">
+                <a th:href="@{task/manage}" class="btn btn-primary">
+                    Перейти
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container task-history">
+    <h3 class="page-header">
+        История недавно завершенных задач
+    </h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                Дата выполнения
+            </th>
+            <th>
+                Настроение
+            </th>
+            <th>
+                Прогресс
+            </th>
+            <th>
+
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${historyTasks}">
+            <td th:text="${task.endDate}">
+                Дата выполнения
+            </td>
+            <td>
+                <div th:text="${#strings.listJoin(task.emotions,', ')}">
+                </div>
+            </td>
+            <td>
+                        <span th:each="complete: ${task.itemComplete}"
+                              th:class="${complete} ? 'task-status-done glyphicon glyphicon-ok' :
+                                'task-status-failed glyphicon glyphicon-remove'"></span>
+            </td>
+            <td class="text">
+                <a th:href="@{/history/view/{id}(id=${task.id})}" class="btn btn-link">
+                    Подробнее
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -3,13 +3,15 @@ package by.artezio.hackathon.service.impl;
 import by.artezio.hackathon.model.User;
 import by.artezio.hackathon.repository.UserRepository;
 import by.artezio.hackathon.service.UserSecurityService;
+import by.artezio.hackathon.util.security.UserDetails;
 import by.artezio.hackathon.util.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 /**
  * @author ntishkevich
@@ -23,7 +25,10 @@ public class UserSecurityServiceImpl implements UserSecurityService {
 
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
-        //todo persist last event date after success auth
+        User user = ((UserDetails) event.getAuthentication().getPrincipal()).getUser();
+        Date lastLoginDate = new Date();
+        user.setLastEventDate(lastLoginDate);
+        userRepository.save(user);
     }
 
     @Override
