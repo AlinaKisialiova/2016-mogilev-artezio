@@ -25,21 +25,21 @@
                             <a href="/" th:href="@{/}">Главная</a>
                         </li>
                         <li>
-                            <a href="/task" th:href="@{/task}">Задание</a>
+                            <a href="/task" th:href="@{/task}" th:if="${currentUser ne null}">Задание</a>
                         </li>
                         <li>
-                            <a href="/progress" th:href="@{/progress}">Прогресс</a>
+                            <a href="/progress" th:href="@{/progress}" th:if="${currentUser ne null}">Прогресс</a>
                         </li>
                         <li>
-                            <a href="/history/page/1" th:href="@{/history/page/1}">История</a>
+                            <a href="/history/page/1" th:href="@{/history/page/1}" th:if="${currentUser ne null}">История</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="/register" th:href="@{/register}">Регистрация</a>
+                            <a href="/register" th:href="@{/register}" th:if="${currentUser eq null}">Регистрация</a>
                         </li>
                         <li>
-                            <a href="/logout" th:href="@{/logout}">Выход</a>
+                            <a href="/logout" th:href="@{/logout}" th:if="${currentUser ne null}">Выход</a>
                         </li>
 
                     </ul>

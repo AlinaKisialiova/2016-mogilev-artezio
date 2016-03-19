@@ -2,6 +2,7 @@ package by.artezio.hackathon.web.controller;
 
 import by.artezio.hackathon.service.UserService;
 import by.artezio.hackathon.service.dto.UserRegistrationDto;
+import by.artezio.hackathon.util.security.SecurityUtils;
 import by.artezio.hackathon.web.validator.UserRegistrationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
+import java.util.Optional;
+
 
 @Controller
 @RequestMapping(path = "/")
@@ -27,7 +31,9 @@ public class SignController {
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String index() {
+    public String index(@RequestParam(name = "error", required = false)Optional<String> error, Model model) {
+        model.addAttribute("error", error);
+        model.addAttribute("currentUser", SecurityUtils.getCurrentUserDetails());
         return "index";
     }
 
