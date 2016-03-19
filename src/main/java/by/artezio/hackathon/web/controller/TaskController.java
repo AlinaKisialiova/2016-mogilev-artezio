@@ -1,5 +1,7 @@
 package by.artezio.hackathon.web.controller;
 
+import by.artezio.hackathon.model.Advice;
+import by.artezio.hackathon.service.AdviceService;
 import by.artezio.hackathon.service.EmotionService;
 import by.artezio.hackathon.service.dto.UserEmotionDto;
 import by.artezio.hackathon.util.security.SecurityUtils;
@@ -11,16 +13,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Controller
+@SessionAttributes(names = {"emotions", "adviceList"})
 @RequestMapping("/task")
 public class TaskController {
 
     @Autowired
     private EmotionService emotionService;
+
+    @Autowired
+    private AdviceService adviceService;
 
     @ModelAttribute("currentUser")
     private UserDetails currentUser() {
@@ -58,7 +65,14 @@ public class TaskController {
             return "redirect:/task";
         }
         model.addAttribute("emotions", emotions);
+        model.addAttribute("adviceList", adviceService.findByEmotions(emotions));
         return "redirect:/task/take";
+    }
+
+    @RequestMapping(path = "/take", method = RequestMethod.GET)
+    public String take(Model model, @ModelAttribute("adviceList") List<Advice> adviceList,
+                       @ModelAttribute("emotions") List<UserEmotionDto> emotions) {
+        return "task_take";
     }
 
 }

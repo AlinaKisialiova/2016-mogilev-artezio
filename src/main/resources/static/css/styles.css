@@ -20,3 +20,8 @@
     background-color: #d9534f;
 }
 
+/* Taking a Task Form */
+
+#takeTaskForm input[type=checkbox] {
+    display: none;
+}
