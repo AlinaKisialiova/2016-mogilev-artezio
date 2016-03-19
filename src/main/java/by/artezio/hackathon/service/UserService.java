@@ -12,4 +12,5 @@ public interface UserService {
 
     Boolean isUserWithEmailOrLoginExist(UserRegistrationDto dto);
 
+    void decreaseUsersMood();
 }

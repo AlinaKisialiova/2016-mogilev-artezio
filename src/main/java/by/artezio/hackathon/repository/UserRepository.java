@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author ntishkevich
  * @version 19.03.2016
@@ -18,4 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     @Query("select count(u) > 0 from User u where u.login = :login or u.email = :email")
     Boolean isUserWithLoginOrEmailExists(@Param("login") String login, @Param("email") String email);
+
+    @Query("select u from User u where u.mood > 0")
+    List<User> findAllUsersWithMoodGreaterThenZero();
 }
