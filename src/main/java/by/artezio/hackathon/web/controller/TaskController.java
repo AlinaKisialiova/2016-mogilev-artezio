@@ -54,8 +54,8 @@ public class TaskController {
         String imageBase64 = form.getImageBase64();
 
         List<UserEmotionDto> emotions;
-        if(image.isEmpty()) {
-            if(imageUrl.isEmpty()) {
+        if(image == null || image.isEmpty()) {
+            if(imageUrl == null || imageUrl.isEmpty()) {
                 if(imageBase64 == null || imageBase64.isEmpty()) {
                     return "redirect:/task";
                 } else {

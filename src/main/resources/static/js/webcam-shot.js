@@ -2,7 +2,7 @@
 
     var $webcamBlock = $('#camera-block');
     var $webcamShotView = $('.camera-shot-view');
-    var $webcamShotBtn = $('.camera-shot-btn');
+        var $webcamShotBtn = $('.camera-shot-btn');
 
     $webcamShotBtn.on('click', takeShot);
 
@@ -10,8 +10,8 @@
 
     function setUpCamera() {
         Webcam.set({
-            width: $(window).width()*0.7,
-            height: $(window).height()*0.7,
+            width: 600,
+            height: 450,
             image_format: 'jpeg',
             jpeg_quality: 100
         });
@@ -20,9 +20,9 @@
 
     function takeShot() {
         Webcam.snap(function(data_uri) {
-            $webcamShotView.attr('src', data_uri);
+            $webcamShotView.attr('src', data_uri).show();
             var base64Data = Webcam.dataUrlToRawBase64(data_uri);
-            $('input[name=imageBase64]').val(base64Data);
+            $('#webcamImageForm').show().find('input').val(base64Data);
         });
     }
 
@@ -38,7 +38,7 @@
             zIndex: 999,
             background: 'rgba(1, 1, 1, 0.9)',
             width: '100%',
-            height: '100%'
+            /*height: '100%'*/
         });
 
         $('#camera-block').find("video").css({

@@ -32,3 +32,25 @@
 #manageTaskForm input[type=checkbox] {
     display: none;
 }
+
+/* Task page */
+#webcamBlock {
+    display: none;
+}
+
+#fileBlock {
+    display: none;
+}
+
+.camera-shot-view {
+    display: none;
+}
+
+#webcamImageForm {
+    display: none;
+}
+
+#webcamImageForm input {
+    display: none;
+}
+

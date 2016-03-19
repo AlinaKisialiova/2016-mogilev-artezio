@@ -41,7 +41,7 @@ public class EmotionServiceImpl implements EmotionService {
             "\"fear\":9.70716646E-05,\"happiness\":4.799247E-06,\"neutral\":0.00493922364," +
             "\"sadness\":3.30198527E-05,\"surprise\":1.34937009E-05}}]";
 
-    private static boolean DEBUG_MODE = true;
+    private static boolean DEBUG_MODE = false;
 
     @Override
     public List<UserEmotionDto> loadEmotionsByUrl(String url) {
