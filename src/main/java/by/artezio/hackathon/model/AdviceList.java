@@ -34,6 +34,9 @@ public class AdviceList {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "scores")
+    private Short scores;
+
     public Long getId() {
         return id;
     }
@@ -80,5 +83,13 @@ public class AdviceList {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Short getScores() {
+        return scores;
+    }
+
+    public void setScores(Short scores) {
+        this.scores = scores;
     }
 }
