@@ -97,15 +97,22 @@ public class AdviceListServiceImpl implements AdviceListService {
 
     @Override
     public AdviceList completeAndFinish(User user, List<Long> adviceIds) {
+        AdviceList list = findActiveList(user);
         if (adviceIds != null && !adviceIds.isEmpty()) {
-            adviceListItemService.complete(adviceIds);
+            list = adviceListItemService.complete(adviceIds, user);
         }
-        return finish(user);
+        if (list.getEndDate() == null) {
+            return finish(user);
+        }
+        return list;
     }
 
     @Override
     public AdviceList finish(User user) {
         AdviceList list = findActiveList(user);
+        if (list == null) {
+            return null;
+        }
         list.setEndDate(new Date());
         //TODO userService.updateMood(user, list.getItems());
         return saveOrUpdate(list);
