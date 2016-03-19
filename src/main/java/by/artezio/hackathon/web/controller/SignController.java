@@ -1,5 +1,6 @@
 package by.artezio.hackathon.web.controller;
 
+import by.artezio.hackathon.model.enumeration.GenderEnum;
 import by.artezio.hackathon.service.UserService;
 import by.artezio.hackathon.service.dto.UserRegistrationDto;
 import by.artezio.hackathon.util.security.SecurityUtils;
@@ -40,12 +41,14 @@ public class SignController {
     @RequestMapping(path = "/register", method = RequestMethod.GET)
     public String signUpGet(Model model) {
         model.addAttribute("user", new UserRegistrationDto());
+        model.addAttribute("genders", GenderEnum.values());
         return "registration";
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public String register(@Valid @ModelAttribute("user") UserRegistrationDto dto, BindingResult result) {
+    public String register(@Valid @ModelAttribute("user") UserRegistrationDto dto, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("genders", GenderEnum.values());
             return "registration";
         } else {
             userService.register(dto);

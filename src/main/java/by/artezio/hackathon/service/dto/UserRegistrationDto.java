@@ -1,5 +1,9 @@
 package by.artezio.hackathon.service.dto;
 
+import by.artezio.hackathon.model.enumeration.GenderEnum;
+
+import java.util.Date;
+
 /**
  * Created by rezerv on 19.03.2016.
  */
@@ -8,6 +12,8 @@ public class UserRegistrationDto {
     private String password;
     private String retryPassword;
     private String email;
+    private GenderEnum gender;
+    private Date birthDate;
 
     public String getLogin() {
         return login;
@@ -39,5 +45,21 @@ public class UserRegistrationDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public GenderEnum getGender() {
+        return gender;
+    }
+
+    public void setGender(GenderEnum gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 }

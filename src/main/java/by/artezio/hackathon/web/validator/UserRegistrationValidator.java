@@ -29,6 +29,8 @@ public class UserRegistrationValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "retryPassword", "field.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "field.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "gender", "field.required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "birthDate", "field.required");
 
         UserRegistrationDto dto = (UserRegistrationDto) target;
 
