@@ -23,7 +23,7 @@ public class UserSecurityServiceImpl implements UserSecurityService {
 
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
-        //todo persist last event date after succes auth
+        //todo persist last event date after success auth
     }
 
     @Override
