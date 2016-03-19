@@ -1,4 +1,4 @@
-package by.artezio.hackathon.model;
+package by.artezio.hackathon.model.enumeration;
 
 /**
  * @author ntishkevich
