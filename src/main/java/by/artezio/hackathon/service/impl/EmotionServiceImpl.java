@@ -1,5 +1,6 @@
 package by.artezio.hackathon.service.impl;
 
+import by.artezio.hackathon.service.dto.UserPhotoDto;
 import by.artezio.hackathon.service.dto.enumeration.EmotionTypes;
 import by.artezio.hackathon.service.EmotionService;
 import by.artezio.hackathon.service.dto.UserEmotionDto;
@@ -44,9 +45,9 @@ public class EmotionServiceImpl implements EmotionService {
     private static boolean DEBUG_MODE = false;
 
     @Override
-    public List<UserEmotionDto> loadEmotionsByUrl(String url) {
+    public UserPhotoDto loadEmotionsByUrl(String url) {
         if(DEBUG_MODE) {
-            return getDebugEmotions();
+            return new UserPhotoDto("", getDebugEmotions());
         }
         if(url.isEmpty()) {
             return null;
@@ -59,17 +60,17 @@ public class EmotionServiceImpl implements EmotionService {
     }
 
     @Override
-    public List<UserEmotionDto> loadEmotionsByImage(MultipartFile file) {
+    public UserPhotoDto loadEmotionsByImage(MultipartFile file) {
         if(DEBUG_MODE) {
-            return getDebugEmotions();
+            return new UserPhotoDto("", getDebugEmotions());
         }
         return file.isEmpty() ? null : getEmotionsFromMCRSFT(file);
     }
 
     @Override
-    public List<UserEmotionDto> loadEmotionsByBase64Data(String imageBase64) {
+    public UserPhotoDto loadEmotionsByBase64Data(String imageBase64) {
         if(DEBUG_MODE) {
-            return getDebugEmotions();
+            return new UserPhotoDto("", getDebugEmotions());
         }
         if(imageBase64.isEmpty()) {
             return null;
@@ -102,7 +103,7 @@ public class EmotionServiceImpl implements EmotionService {
         }
     }
 
-    private List<UserEmotionDto> getEmotionsFromMCRSFT(URI url) {
+    private UserPhotoDto getEmotionsFromMCRSFT(URI url) {
         HttpClient httpclient = HttpClients.createDefault();
 
         try {
@@ -119,7 +120,7 @@ public class EmotionServiceImpl implements EmotionService {
             HttpEntity entity = response.getEntity();
 
             if (entity != null) {
-                return parseJson(EntityUtils.toString(entity));
+                return new UserPhotoDto(url.toString(), parseJson(EntityUtils.toString(entity)));
             }
 
         } catch (URISyntaxException | IOException e) {
@@ -128,7 +129,7 @@ public class EmotionServiceImpl implements EmotionService {
         return null;
     }
 
-    private List<UserEmotionDto> getEmotionsFromMCRSFT(MultipartFile file) {
+    private UserPhotoDto getEmotionsFromMCRSFT(MultipartFile file) {
 
         byte[] bytes;
 
@@ -142,7 +143,8 @@ public class EmotionServiceImpl implements EmotionService {
         return getEmotionsFromMCRSFT(bytes);
     }
 
-    private List<UserEmotionDto> getEmotionsFromMCRSFT(byte[] bytes) {
+    private UserPhotoDto getEmotionsFromMCRSFT(byte[] bytes) {
+
 
         HttpClient httpclient = HttpClients.createDefault();
 
@@ -160,7 +162,7 @@ public class EmotionServiceImpl implements EmotionService {
             HttpEntity entity = response.getEntity();
 
             if (entity != null) {
-                return parseJson(EntityUtils.toString(entity));
+                return new UserPhotoDto(bytes, parseJson(EntityUtils.toString(entity)));
             }
 
         } catch (IOException | URISyntaxException e) {

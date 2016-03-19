@@ -8,8 +8,10 @@ import by.artezio.hackathon.service.AdviceService;
 import by.artezio.hackathon.service.EmotionService;
 import by.artezio.hackathon.service.dto.UploadImageFormDto;
 import by.artezio.hackathon.service.dto.UserEmotionDto;
+import by.artezio.hackathon.service.dto.UserPhotoDto;
 import by.artezio.hackathon.util.security.SecurityUtils;
 import by.artezio.hackathon.util.security.UserDetails;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Controller
-@SessionAttributes(names = {"emotions", "adviceList"})
+@SessionAttributes(names = {"emotions", "adviceList", "photo"})
 @RequestMapping("/task")
 public class TaskController {
 
@@ -52,33 +54,34 @@ public class TaskController {
         MultipartFile image = form.getImage();
         String imageUrl = form.getImageUrl();
         String imageBase64 = form.getImageBase64();
-
+        UserPhotoDto photo;
         List<UserEmotionDto> emotions;
-        if(image == null || image.isEmpty()) {
-            if(imageUrl == null || imageUrl.isEmpty()) {
-                if(imageBase64 == null || imageBase64.isEmpty()) {
+        if (image == null || image.isEmpty()) {
+            if (imageUrl == null || imageUrl.isEmpty()) {
+                if (imageBase64 == null || imageBase64.isEmpty()) {
                     return "redirect:/task";
                 } else {
-                    emotions = emotionService.loadEmotionsByBase64Data(imageBase64);
+                    photo = emotionService.loadEmotionsByBase64Data(imageBase64);
                 }
             } else {
-                emotions = emotionService.loadEmotionsByUrl(imageUrl);
+                photo = emotionService.loadEmotionsByUrl(imageUrl);
             }
         } else {
-            emotions = emotionService.loadEmotionsByImage(image);
+            photo = emotionService.loadEmotionsByImage(image);
         }
 
-        if(emotions == null) {
+        if(photo == null) {
             return "redirect:/task";
         }
-        model.addAttribute("emotions", emotions);
-        model.addAttribute("adviceList", adviceService.findByEmotions(emotions));
+        model.addAttribute("emotions", photo.getEmotions());
+        model.addAttribute("photo", "data:image/jpeg;base64," + Base64.encodeBase64String(photo.getPhoto()));
+        model.addAttribute("adviceList", adviceService.findByEmotions(photo.getEmotions()));
         return "redirect:/task/take";
     }
 
     @RequestMapping(path = "/take", method = RequestMethod.GET)
     public String take(Model model, @ModelAttribute("adviceList") List<Advice> adviceList,
-                       @ModelAttribute("emotions") List<UserEmotionDto> emotions) {
+                       @ModelAttribute("emotions") List<UserEmotionDto> emotions, @ModelAttribute("photo") byte[] photo) {
         return "task_take";
     }
 
