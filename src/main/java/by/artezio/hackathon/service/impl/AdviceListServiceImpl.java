@@ -115,7 +115,22 @@ public class AdviceListServiceImpl implements AdviceListService {
             return null;
         }
         list.setEndDate(new Date());
-        //TODO userService.updateMood(user, list.getItems());
+
+        long completeCount = list.getItems().stream().filter(AdviceListItem::getComplete).count();
+        int totalCount = list.getItems().size();
+        // Каждый выполненый совет +1%
+        // Каждый невыполненный совет -0.5%
+        // -- +30% очков за каждый совет в списке
+        short scores = (short)((2 * completeCount - totalCount) * (1 + 0.3 * totalCount));
+        list.setScores(scores);
+
+        // Добавить очки пользователю
+        user.setMood(user.getMood() + scores);
+        if (user.getMood() > 100d) {
+            user.setMood(100d);
+        }
+        userService.saveOrUpdate(user);
+
         return saveOrUpdate(list);
     }
 

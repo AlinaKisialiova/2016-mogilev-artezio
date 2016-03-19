@@ -3,7 +3,9 @@
 }
 
 .task-progress img {
-    width: 100px;
+    position: relative;
+    width: 60px;
+    left: calc(50% - 30px);
 }
 
 .task-progress .progress {

@@ -112,7 +112,7 @@ public class TaskController {
     public String managePost(@RequestParam(value = "adviceIds", required = false) List<Long> adviceIds,
                              @RequestParam("action") String action) {
         AdviceList lastList = null;
-        if ("completeAndFinish".equals(action)) {
+        if ("complete".equals(action)) {
             lastList = adviceListService.completeAndFinish(SecurityUtils.getCurrentUser(), adviceIds);
         } else {
             lastList = adviceListItemService.complete(adviceIds, SecurityUtils.getCurrentUser());
