@@ -29,7 +29,7 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        final User user = userRepository.findByEmail(login);
+        final User user = userRepository.findByLogin(login);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User with {login = %s} does not exist", login));
         }
