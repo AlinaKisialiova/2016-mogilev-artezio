@@ -5,12 +5,12 @@ import by.artezio.hackathon.model.AdviceList;
 import by.artezio.hackathon.model.AdviceListItem;
 import by.artezio.hackathon.model.User;
 import by.artezio.hackathon.repository.AdviceListRepository;
-import by.artezio.hackathon.service.AdviceListItemService;
-import by.artezio.hackathon.service.AdviceListService;
+import by.artezio.hackathon.service.*;
 import by.artezio.hackathon.service.EmotionService;
-import by.artezio.hackathon.service.UserAdviceService;
 import by.artezio.hackathon.service.dto.HistoryTaskDto;
 import by.artezio.hackathon.service.dto.UserEmotionDto;
+import by.artezio.hackathon.service.dto.enumeration.EmotionTypes;
+import by.artezio.hackathon.util.DateFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -73,6 +75,27 @@ public class AdviceListServiceImpl implements AdviceListService {
     public Page<HistoryTaskDto> getHistoryTasks(User user, Pageable pageable) {
         //todo implement me
         return new PageImpl<>(Collections.emptyList(), pageable, 0);
+    }
+
+    @Override
+    public Page<HistoryTaskDto> getTaskHistory(User user, Pageable pageable) {
+        Page<AdviceList> tasks = adviceListRepository.findByUserIdAndEndDateIsNotNullOrderByEndDateDesc(user.getId(), pageable);
+        List<HistoryTaskDto> historyTaskDtos = Collections.emptyList();
+        if(Objects.nonNull(tasks) && !tasks.getContent().isEmpty()) {
+            historyTaskDtos  = tasks.getContent().stream().map(this::convertAdviceListToHistoryTaskDto).collect(Collectors.toList());
+        }
+        return new PageImpl<>(historyTaskDtos, pageable, tasks.getTotalElements());
+    }
+
+    private HistoryTaskDto convertAdviceListToHistoryTaskDto(AdviceList adviceList) {
+        HistoryTaskDto task = new HistoryTaskDto();
+        task.setId(adviceList.getId());
+        task.setEndDate(DateFormatter.formatDate(adviceList.getEndDate()));
+        List<EmotionTypes> emotionList = emotionService.deserializeUserEmotions(adviceList.getCurrentEmotion()).stream().map(UserEmotionDto::getType)
+                .collect(Collectors.toList());
+        task.setEmotions(emotionList.stream().map(EmotionTypes::getTitle).collect(Collectors.toList()));
+        task.setItemComplete(adviceList.getItems().stream().map(AdviceListItem::getComplete).collect(Collectors.toList()));
+        return task;
     }
 
     @Override

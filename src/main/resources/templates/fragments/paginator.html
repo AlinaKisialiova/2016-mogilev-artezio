@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="templates/layout :: page">
+<head>
+    <title></title>
+</head>
+<body>
+<header th:fragment="paginator">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class='pagination pagination-centered'>
+                <ul class="pagination">
+                    <li th:class="${currentIndex == 1}? 'disabled' : ''">
+                        <span th:if='${currentIndex == 1}'>← First</span>
+                        <a th:if='${currentIndex != 1}'
+                           th:href="@{${'/history/page'+'/1'}}">← First</a>
+                    </li>
+                    <li th:class="${currentIndex != 1}? '' : 'disabled'">
+                        <span th:if='${currentIndex == 1}'>«</span>
+                        <a th:if='${currentIndex != 1}'
+                           th:href="@{${'/history/page/'+ (currentIndex - 1)}}"
+                           title='К предыдущей странице'>«</a>
+                    </li>
+
+                    <li th:each="item : ${#numbers.sequence(beginIndex,endIndex)}"
+                        th:class="${item == currentIndex ? 'active' : '' }">
+                        <span th:if='${item == currentIndex}' th:text='${item}'>1</span>
+                        <a th:if='${item != currentIndex}'
+                           th:href="@{${'/history/page/'+item }}">
+                            <span th:text='${item}'>1</span>
+                        </a>
+                    </li>
+
+                    <li th:class="${currentIndex != historyTasks.totalPages}? '' : 'disabled'">
+                        <span th:if='${currentIndex == historyTasks.totalPages}'>»</span>
+                        <a th:if='${currentIndex != historyTasks.totalPages}'
+                           th:href="@{${'/history/page/'+(currentIndex + 1)}}" title='К следующей странице'>»</a>
+                    </li>
+                    <li th:class="${currentIndex == historyTasks.totalPages or historyTasks.totalPages eq 0} ? 'disabled' : ''">
+                        <span th:if='${currentIndex == historyTasks.totalPages}'>Last →</span>
+                        <a th:if='${currentIndex != historyTasks.totalPages}'
+                           th:href="@{${'/history/page/'+ historyTasks.totalPages}}">Last →</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>

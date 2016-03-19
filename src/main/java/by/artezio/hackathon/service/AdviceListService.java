@@ -23,5 +23,8 @@ public interface AdviceListService {
 
     Page<HistoryTaskDto> getHistoryTasks(User user, Pageable pageable);
 
+    Page<HistoryTaskDto> getTaskHistory(User user, Pageable pageable);
+
     AdviceList saveOrUpdate(AdviceList adviceList);
 }
+

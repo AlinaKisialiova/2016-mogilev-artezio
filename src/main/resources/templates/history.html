@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+
+<header th:replace="fragments/header :: header"></header>
+
+<div class="container task-history">
+    <h3 class="page-header">
+        История завершенных задач
+    </h3>
+
+    <div th:replace="fragments/paginator :: paginator"></div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                Дата выполнения
+            </th>
+            <th>
+                Настроение
+            </th>
+            <th>
+                Прогресс
+            </th>
+            <th>
+
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${historyTasks}">
+            <td th:text="${task.endDate}">
+                Дата выполнения
+            </td>
+            <td>
+                <div th:text="${#strings.listJoin(task.emotions,', ')}">
+                </div>
+            </td>
+            <td>
+                <span th:each="complete: ${task.itemComplete}"
+                      th:class="${complete} ? 'task-status-done glyphicon glyphicon-ok' :
+                                'task-status-failed glyphicon glyphicon-remove'"></span>
+            </td>
+            <td class="text">
+                <a th:href="@{/history/view/{id}(id=${task.id})}" class="btn btn-link">
+                    Подробнее
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <h3 th:if='${historyTasks ne null}'>Завершенных списков нет</h3>
+</div>
+
+
+<div th:replace="fragments/paginator :: paginator"></div>
+
+</body>
+</html>
