@@ -10,6 +10,9 @@
     </h3>
     <div class="row">
         <div class="col-md-3">
+            <div class="row">
+                <img th:src="${photo}" id="taskPhotoImage" class="col-md-12"/>
+            </div>
             <h4>
                 Настроение
             </h4>
@@ -23,7 +26,6 @@
                     </td>
                 </tr>
             </table>
-            <img th:src="${photo}"/>
         </div>
         <form class="col-md-9" id="takeTaskForm" method="post"
               action="/task/take" th:action="@{/task/take}">
