@@ -1,10 +1,12 @@
 package by.artezio.hackathon.service.impl;
 
+import by.artezio.hackathon.model.Advice;
 import by.artezio.hackathon.model.AdviceList;
 import by.artezio.hackathon.model.User;
 import by.artezio.hackathon.repository.AdviceListRepository;
 import by.artezio.hackathon.service.AdviceListService;
 import by.artezio.hackathon.service.dto.HistoryTaskDto;
+import by.artezio.hackathon.service.dto.UserEmotionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author ntishkevich
@@ -28,6 +31,12 @@ public class AdviceListServiceImpl implements AdviceListService {
     @Override
     public AdviceList findActiveList(User currentUser) {
         return adviceListRepository.findByUserIdAndEndDateIsNull(currentUser.getId());
+    }
+
+    @Override
+    public AdviceList createAdviceList(List<Integer> selected, List<Advice> adviceList, List<UserEmotionDto> emotions, User user) {
+        // TODO: Implement
+        return null;
     }
 
     @Override

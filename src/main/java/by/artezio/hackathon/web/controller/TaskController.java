@@ -1,6 +1,8 @@
 package by.artezio.hackathon.web.controller;
 
 import by.artezio.hackathon.model.Advice;
+import by.artezio.hackathon.model.AdviceList;
+import by.artezio.hackathon.service.AdviceListService;
 import by.artezio.hackathon.service.AdviceService;
 import by.artezio.hackathon.service.EmotionService;
 import by.artezio.hackathon.service.dto.UserEmotionDto;
@@ -10,13 +12,11 @@ import by.artezio.hackathon.web.form.UploadImageForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @SessionAttributes(names = {"emotions", "adviceList"})
@@ -25,6 +25,9 @@ public class TaskController {
 
     @Autowired
     private EmotionService emotionService;
+
+    @Autowired
+    private AdviceListService adviceListService;
 
     @Autowired
     private AdviceService adviceService;
@@ -73,6 +76,32 @@ public class TaskController {
     public String take(Model model, @ModelAttribute("adviceList") List<Advice> adviceList,
                        @ModelAttribute("emotions") List<UserEmotionDto> emotions) {
         return "task_take";
+    }
+
+    @RequestMapping(path = "/take", method = RequestMethod.POST)
+    public String takePost(@RequestParam(value = "adviceIds") List<Integer> adviceIds,
+                           @ModelAttribute("adviceList") List<Advice> adviceList,
+                           @ModelAttribute("emotions") List<UserEmotionDto> emotions) {
+        if(Objects.isNull(adviceIds) || adviceIds.isEmpty()) {
+            return "redirect:/task";
+        }
+
+        adviceListService.createAdviceList(adviceIds, adviceList, emotions, SecurityUtils.getCurrentUser());
+        return "redirect:/task/manage";
+    }
+
+    @RequestMapping(path = "/manage",  method = RequestMethod.GET)
+    public String manage(Model model) {
+        AdviceList activeList = adviceListService.findActiveList(SecurityUtils.getCurrentUser());
+
+        if (activeList == null) {
+            return "redirect:/task";
+        }
+
+        model.addAttribute("adviceList", activeList);
+        model.addAttribute("emotions", emotionService.deserializeUserEmotions(activeList.getCurrentEmotion()));
+
+        return "task_manage";
     }
 
 }
