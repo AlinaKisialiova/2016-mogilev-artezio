@@ -132,23 +132,23 @@
 					<fork>true</fork>
 				</configuration>
 			</plugin>
-			<!--<plugin>-->
-				<!--<groupId>org.flywaydb</groupId>-->
-				<!--<artifactId>flyway-maven-plugin</artifactId>-->
-				<!--<version>${flyway-plugin.version}</version>-->
-				<!--<configuration>-->
-					<!--<driver>org.postgresql.Driver</driver>-->
-					<!--<url>jdbc:postgresql://localhost:5432/postgres</url>-->
-					<!--<user>postgres</user>-->
-					<!--<password>postgres</password>-->
-					<!--<schemas>-->
-						<!--<schema>hackathon</schema>-->
-					<!--</schemas>-->
-					<!--<skipDefaultCallbacks>false</skipDefaultCallbacks>-->
-					<!--<cleanDisabled>false</cleanDisabled>-->
-					<!--<skip>false</skip>-->
-				<!--</configuration>-->
-			<!--</plugin>-->
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>${flyway-plugin.version}</version>
+				<configuration>
+					<driver>org.postgresql.Driver</driver>
+					<url>jdbc:postgresql://localhost:5432/postgres</url>
+					<user>postgres</user>
+					<password>postgres</password>
+					<schemas>
+						<schema>hackathon</schema>
+					</schemas>
+					<skipDefaultCallbacks>false</skipDefaultCallbacks>
+					<cleanDisabled>false</cleanDisabled>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>
