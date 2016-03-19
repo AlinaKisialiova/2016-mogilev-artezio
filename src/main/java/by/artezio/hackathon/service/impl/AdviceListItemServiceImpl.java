@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author ntishkevich
@@ -35,9 +36,11 @@ public class AdviceListItemServiceImpl implements AdviceListItemService {
     }
 
     @Override
-    public AdviceList complete(Iterable<Long> ids, User user) {
-        for (Long id : ids) {
-            complete(id);
+    public AdviceList complete(List<Long> ids, User user) {
+        if (ids != null && ids.size() != 0) {
+            for (Long id : ids) {
+                complete(id);
+            }
         }
         AdviceList adviceList = adviceListService.findActiveList(user);
         if (adviceList.getItems().stream().filter(AdviceListItem::getComplete).count() == adviceList.getItems().size()) {

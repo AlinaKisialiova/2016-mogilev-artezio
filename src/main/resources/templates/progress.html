@@ -6,7 +6,11 @@
 <header th:replace="fragments/header :: header"></header>
 <div class="container task-progress">
     <h3 class="text-center">
-        Ваше настроение
+        Ваше настроение&nbsp;
+        <span th:if="${score ne null} AND ${score ne 0}">
+            <span th:if="${score lt 0}" style="color: red;" th:text="'- ' + ${-score} + '%'"></span>
+            <span th:if="${score gt 0}" style="color: green;" th:text="'+ ' + ${score} + '%'"></span>
+        </span>
     </h3>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -21,10 +25,19 @@
                 <img class="progress-mood-icon" src="/images/happiness.png" th:src="@{/images/happiness.png}" alt="File"/>
             </div>
 
-            <div class="progress">
+            <div class="progress" th:if="${score eq null} OR ${score eq 0}">
                 <div class="progress-bar" th:style="'width: ' + ${currentUser.user.mood} + '%'"></div>
-                <div th:if="${score ne null}" class="progress-bar progress-bar-success"
+                <div class="progress-bar progress-bar-success" th:style="'width: ' + ${score} + '%'"></div>
+            </div>
+            <div class="progress" th:if="${score ne null} AND ${score gt 0}">
+                <div class="progress-bar" th:style="'width: ' + ${currentUser.user.mood - score} + '%'"></div>
+                <div class="progress-bar progress-bar-success"
                      th:style="'width: ' + ${score} + '%'"></div>
+            </div>
+            <div class="progress" th:if="${score ne null} AND ${score lt 0}">
+                <div class="progress-bar" th:style="'width: ' + ${currentUser.user.mood} + '%'"></div>
+                <div class="progress-bar progress-bar-danger"
+                     th:style="'width: ' + ${-score} + '%'"></div>
             </div>
         </div>
     </div>
