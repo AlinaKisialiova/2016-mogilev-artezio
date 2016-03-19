@@ -32,6 +32,13 @@ public class User {
     @Column(name = "last_event_date")
     private Date lastEventDate;
 
+    @Column(name = "gender")
+    @Enumerated(value = EnumType.STRING)
+    private GenderEnum gender;
+
+    @Column(name = "birth_date")
+    private Date birthDate;
+
     public Long getId() {
         return id;
     }
@@ -78,5 +85,21 @@ public class User {
 
     public void setLastEventDate(Date lastEventDate) {
         this.lastEventDate = lastEventDate;
+    }
+
+    public GenderEnum getGender() {
+        return gender;
+    }
+
+    public void setGender(GenderEnum gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 }
