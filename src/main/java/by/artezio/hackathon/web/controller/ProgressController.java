@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author ntishkevich
@@ -27,7 +28,8 @@ public class ProgressController {
     }
 
     @RequestMapping(path = "")
-    public String index(Model model) {
+    public String index(Model model, @RequestParam(name = "score", required = false) Integer score) {
+        model.addAttribute("score", score);
         model.addAttribute("activeTask", adviceListService.findActiveTaskPreview(SecurityUtils.getCurrentUser()));
         model.addAttribute("historyTasks", adviceListService.getHistoryTasks(SecurityUtils.getCurrentUser(),
                 new PageRequest(0, 5)));

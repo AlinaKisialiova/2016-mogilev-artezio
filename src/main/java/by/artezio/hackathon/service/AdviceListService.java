@@ -30,7 +30,9 @@ public interface AdviceListService {
 
     AdviceList saveOrUpdate(AdviceList adviceList);
 
-    void complete(User user, List<Long> adviceIds);
+    AdviceList completeAndFinish(User user, List<Long> adviceIds);
+
+    AdviceList finish(User user);
 
 }
 

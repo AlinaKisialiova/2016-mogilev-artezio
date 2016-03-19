@@ -11,7 +11,9 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="progress">
-                <div class="progress-bar" style="width: 50%" th:style="'width: ' + ${currentUser.user.mood} + '%'"></div>
+                <div class="progress-bar" th:style="'width: ' + ${currentUser.user.mood} + '%'"></div>
+                <div th:if="${score ne null}" class="progress-bar progress-bar-success"
+                     th:style="'width: ' + ${score} + '%'"></div>
             </div>
         </div>
     </div>

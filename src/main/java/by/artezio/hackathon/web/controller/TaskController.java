@@ -111,12 +111,17 @@ public class TaskController {
     @RequestMapping(path = "/manage",  method = RequestMethod.POST)
     public String managePost(@RequestParam(value = "adviceIds", required = false) List<Long> adviceIds,
                              @RequestParam("action") String action) {
-        if ("complete".equals(action)) {
-            adviceListService.complete(SecurityUtils.getCurrentUser(), adviceIds);
-            return "redirect:/progress";
+        AdviceList lastList = null;
+        if ("completeAndFinish".equals(action)) {
+            lastList = adviceListService.completeAndFinish(SecurityUtils.getCurrentUser(), adviceIds);
+        } else {
+            lastList = adviceListItemService.complete(adviceIds, SecurityUtils.getCurrentUser());
         }
-        adviceListItemService.completeItems(adviceIds);
+        if (lastList.getEndDate() != null) {
+            return "redirect:/progress?score=" + lastList.getScores();
+        }
         return "redirect:/task/manage";
+
     }
 
 }
