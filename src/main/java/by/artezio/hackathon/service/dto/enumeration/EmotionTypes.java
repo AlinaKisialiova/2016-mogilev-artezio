@@ -7,7 +7,7 @@ public enum EmotionTypes {
     DISGUST("D", "disgust", "Отвращение"),
     FEAR("F", "fear",  "Страх"),
     HAPPINESS("H", "happiness", "Радость"),
-    NEUTRAl("N", "neutral", "Нейтральность"),
+    NEUTRAL("N", "neutral", "Нейтральность"),
     SADNESS("SA", "sadness", "Грусть"),
     SURPRISE("SU", "surprise", "Удивление");
 
