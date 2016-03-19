@@ -22,4 +22,6 @@ public interface AdviceListService {
                                 List<UserEmotionDto> emotions, User user);
 
     Page<HistoryTaskDto> getHistoryTasks(User user, Pageable pageable);
+
+    AdviceList saveOrUpdate(AdviceList adviceList);
 }

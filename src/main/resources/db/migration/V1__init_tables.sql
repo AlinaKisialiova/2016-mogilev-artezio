@@ -66,7 +66,6 @@ CREATE TABLE advice_list (
   create_date     TIMESTAMP   NOT NULL,
   end_date        TIMESTAMP   NULL,
   current_emotion VARCHAR(64) NULL,
-  photo           BYTEA       NOT NULL,
   CONSTRAINT Advice_List_pk PRIMARY KEY (id)
 );
 

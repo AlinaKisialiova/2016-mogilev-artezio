@@ -26,3 +26,9 @@
     display: none;
 }
 
+/*
+ * Manage a Task form
+ */
+#manageTaskForm input[type=checkbox] {
+    display: none;
+}
