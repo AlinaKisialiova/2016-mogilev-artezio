@@ -32,16 +32,44 @@
             <table class="table">
                 <tr th:each="advice,status : ${adviceList}">
                     <td style="width: 70px;">
-                        <input type="checkbox" name="adviceIds" th:value="${status.index}" />
+                        <input type="checkbox" name="adviceIds" th:value="${status.index}"/>
                         <span class="btn btn-default advice-check">
                             <span class="glyphicon glyphicon-ok"></span>
                         </span>
                     </td>
-                    <td th:text="${advice.description}">
+                    <td th:text="${advice.description}" colspan="2">
                         Необходимо выполнить задание
                     </td>
                 </tr>
+
+                <tr>
+                    <td></td>
+                    <td style="width: 150px;"></td>
+                    <td></td>
+                </tr>
+
+                <tr class="bg-success" id="customUserAdvice">
+                    <td colspan="2">
+                        <input type="checkbox"/>
+                        <select name="userEmotions" style="display: none;" class="form-control">
+                            <option th:each="emotion : ${emotions}" th:value="${emotion}"
+                                    th:text="${emotion.type.title}">gender
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <textarea class="form-control" style="display:none;"
+                                  placeholder="Добавьте ваш совет">
+                            </textarea>
+
+                        <span class="btn btn-default" id="addCustomUserAdvice" style="float: right">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Добавить совет
+                        </span>
+                    </td>
+                </tr>
             </table>
+
             <div>
                 <button type="submit" class="btn btn-primary" disabled="disabled">
                     Начать
