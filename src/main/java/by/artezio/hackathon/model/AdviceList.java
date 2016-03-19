@@ -37,6 +37,9 @@ public class AdviceList {
     @Column(name = "scores")
     private Short scores;
 
+    @Column(name = "photo")
+    private byte[] photo;
+
     public Long getId() {
         return id;
     }
@@ -91,5 +94,13 @@ public class AdviceList {
 
     public void setScores(Short scores) {
         this.scores = scores;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 }

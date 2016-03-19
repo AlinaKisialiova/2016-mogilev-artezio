@@ -1,0 +1,1 @@
+ALTER TABLE advice_list ADD COLUMN photo BYTEA NULL;

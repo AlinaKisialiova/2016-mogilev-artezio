@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Controller
-@SessionAttributes(names = {"emotions", "adviceList", "photo"})
+@SessionAttributes(names = {"emotions", "adviceList", "photoByte", "photo"})
 @RequestMapping("/task")
 public class TaskController {
 
@@ -75,6 +75,7 @@ public class TaskController {
         }
         model.addAttribute("emotions", photo.getEmotions());
         model.addAttribute("photo", "data:image/jpeg;base64," + Base64.encodeBase64String(photo.getPhoto()));
+        model.addAttribute("photoByte", photo.getPhoto());
         model.addAttribute("adviceList", adviceService.findByEmotions(photo.getEmotions()));
         return "redirect:/task/take";
     }
@@ -88,12 +89,13 @@ public class TaskController {
     @RequestMapping(path = "/take", method = RequestMethod.POST)
     public String takePost(@RequestParam(value = "adviceIds") List<Integer> adviceIds,
                            @ModelAttribute("adviceList") List<Advice> adviceList,
-                           @ModelAttribute("emotions") List<UserEmotionDto> emotions) {
+                           @ModelAttribute("emotions") List<UserEmotionDto> emotions,
+                           @ModelAttribute("photoByte") byte[] photo) {
         if(Objects.isNull(adviceIds) || adviceIds.isEmpty()) {
             return "redirect:/task";
         }
 
-        adviceListService.createAdviceList(adviceIds, adviceList, emotions, SecurityUtils.getCurrentUser());
+        adviceListService.createAdviceList(adviceIds, adviceList, emotions, SecurityUtils.getCurrentUser(), photo);
         return "redirect:/task/manage";
     }
 
@@ -106,6 +108,7 @@ public class TaskController {
         }
 
         model.addAttribute("adviceList", activeList);
+        model.addAttribute("photo", "data:image/jpeg;base64," + Base64.encodeBase64String(activeList.getPhoto()));
         model.addAttribute("emotions", emotionService.deserializeUserEmotions(activeList.getCurrentEmotion()));
 
         return "task_manage";

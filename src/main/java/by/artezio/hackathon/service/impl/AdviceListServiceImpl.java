@@ -76,12 +76,13 @@ public class AdviceListServiceImpl implements AdviceListService {
 
     @Override
     public AdviceList createAdviceList(List<Integer> selected, List<Advice> adviceList, List<UserEmotionDto> emotions,
-                                       User user) {
+                                       User user, byte[] photo) {
         List<Advice> selectedAdvice = selected.stream().map(adviceList::get).collect(Collectors.toList());
         AdviceList list = new AdviceList();
         list.setCreateDate(new Date());
         list.setCurrentEmotion(emotionService.serializeUserEmotions(emotions));
         list.setUser(user);
+        list.setPhoto(photo);
         list.setScores((short)0);
         list = saveOrUpdate(list);
 

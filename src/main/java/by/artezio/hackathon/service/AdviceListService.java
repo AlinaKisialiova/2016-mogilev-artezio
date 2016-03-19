@@ -24,7 +24,7 @@ public interface AdviceListService {
     ActiveTaskDto findActiveTaskPreview(User user);
 
     AdviceList createAdviceList(List<Integer> selected, List<Advice> adviceList,
-                                List<UserEmotionDto> emotions, User user);
+                                List<UserEmotionDto> emotions, User user, byte[] photo);
 
     Page<HistoryTaskDto> getHistoryTasks(User user, Pageable pageable);
 
