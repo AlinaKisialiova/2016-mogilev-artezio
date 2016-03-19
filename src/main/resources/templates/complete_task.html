@@ -4,7 +4,7 @@
 <head th:replace="fragments/head :: head"></head>
 <body>
 <header th:replace="fragments/header :: header"></header>
-<div class="container">
+<div class="container task-history">
     <h3 class="page-header">
         Завершенный список
     </h3>
@@ -15,54 +15,40 @@
                 Эмоциональная картина
             </h4>
             <table class="table emo-result-table">
-                <tr>
-                    <td class="text-right" width=" " style="width: 50%">Грусть</td>
+                <tr th:each="emotion : ${emotions}">
+                    <td class="text-right" style="width: 50%" th:text="${emotion.type.title}">keyvalue</td>
                     <td>
                         <div class="progress">
-                            <div class="progress-bar" style="width: 60%"></div>
+                            <div class="progress-bar" th:style="'width: ' + ${emotion.value} + '%'"></div>
                         </div>
                     </td>
                 </tr>
             </table>
         </div>
-        <form class="col-md-9" id="completeTaskForm">
+        <form class="col-md-9" id="historyTaskForm">
             <h4>
                 Список заданий
             </h4>
             <table class="table">
-                <tr>
+                <tr th:each="advice : ${historyAdviceList.items}" th:class="${advice.complete} ? 'sucsess' ">
                     <td style="width: 70px;">
                         <span>
-                            <span class="task-status-done glyphicon glyphicon-ok"></span>
-                        </span>
+                            <span th:class="${advice.complete} ? 'task-status-done glyphicon glyphicon-ok' : 'task-status-failed glyphicon glyphicon-remove'"></span>
+                            </span>
                     </td>
-                    <td>
-                        Посмотреть картинки с котиками
+                    <td th:text="${advice.userAdvice.advice.description}">
+                        Задание
                     </td>
-                    <td>
-                        Выполнено 19.03.2016 10:43
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 70px;">
-                        <span>
-                            <span class="task-status-failed glyphicon glyphicon-remove"></span>
-                        </span>
-                    </td>
-                    <td>
-                        Выпить вкусного чая
-                    </td>
-                    <td>
-
+                    <td th:text="${advice.endDate ne null ? #dates.format(advice.endDate, 'dd.MM.yyyy HH:mm') : 'Не выполнен'}">
                     </td>
                 </tr>
             </table>
         </form>
     </div>
     <div class="row">
-        <div class="col-md-offset-5 task-status-done glyphicon glyphicon-lock">
-         <span>
-             Завершен 19.03.2016 10:43
+        <div class="col-md-offset-5 task-status-done glyphicon glyphicon-lock"> Завершен
+         <span th:text="${#dates.format(historyAdviceList.endDate, 'dd.MM.yyyy HH:mm')}">
+             Завершен
          </span>
         </div>
     </div>

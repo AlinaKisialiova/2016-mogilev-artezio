@@ -58,7 +58,7 @@ public class HackathonApplication {
 			protected void configure(HttpSecurity http) throws Exception {
 				http.exceptionHandling()
 						.and().authorizeRequests().antMatchers("/").permitAll()
-						.antMatchers("/task", "/progress", "/task/*", "/progress/*").authenticated()
+						.antMatchers("/task", "/progress", "/task/*", "/progress/*", "/history/*/*").authenticated()
 						.and().formLogin().loginPage("/").usernameParameter("login").defaultSuccessUrl("/progress").failureUrl("/?error")
 						.and().logout().logoutUrl("/logout").logoutSuccessUrl("/");
 				http.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(86400);

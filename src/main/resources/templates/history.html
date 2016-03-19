@@ -13,7 +13,15 @@
 
     <div th:replace="fragments/paginator :: paginator"></div>
 
-    <table class="table">
+    <div class="row" th:if="${historyTasks.getContent().isEmpty()}">
+        <div class="col-md-12">
+            <h2>
+                Завершенный задач нет
+            </h2>
+        </div>
+    </div>
+
+    <table class="table" th:if="${!historyTasks.getContent().isEmpty()}">
         <thead>
         <tr>
             <th>
@@ -52,7 +60,6 @@
         </tr>
         </tbody>
     </table>
-    <h3 th:if='${historyTasks ne null}'>Завершенных списков нет</h3>
 </div>
 
 
