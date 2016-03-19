@@ -2,6 +2,7 @@ package by.artezio.hackathon.web.controller;
 
 import by.artezio.hackathon.model.Advice;
 import by.artezio.hackathon.model.AdviceList;
+import by.artezio.hackathon.service.AdviceListItemService;
 import by.artezio.hackathon.service.AdviceListService;
 import by.artezio.hackathon.service.AdviceService;
 import by.artezio.hackathon.service.EmotionService;
@@ -31,6 +32,9 @@ public class TaskController {
 
     @Autowired
     private AdviceService adviceService;
+
+    @Autowired
+    private AdviceListItemService adviceListItemService;
 
     @ModelAttribute("currentUser")
     private UserDetails currentUser() {
@@ -102,6 +106,17 @@ public class TaskController {
         model.addAttribute("emotions", emotionService.deserializeUserEmotions(activeList.getCurrentEmotion()));
 
         return "task_manage";
+    }
+
+    @RequestMapping(path = "/manage",  method = RequestMethod.POST)
+    public String managePost(@RequestParam(value = "adviceIds", required = false) List<Long> adviceIds,
+                             @RequestParam("action") String action) {
+        if ("complete".equals(action)) {
+            adviceListService.complete(SecurityUtils.getCurrentUser(), adviceIds);
+            return "redirect:/progress";
+        }
+        adviceListItemService.completeItems(adviceIds);
+        return "redirect:/task/manage";
     }
 
 }

@@ -3,7 +3,6 @@ import by.artezio.hackathon.service.AdviceListService;
 import by.artezio.hackathon.service.dto.HistoryTaskDto;
 import by.artezio.hackathon.util.security.SecurityUtils;
 import by.artezio.hackathon.util.security.UserDetails;
-import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +33,7 @@ public class HistoryController {
     @RequestMapping(value = "/page/{pageNumber}", method = RequestMethod.GET)
     public String viewHistoryList(Model model, @PathVariable("pageNumber") int pageNumber){
         if(Objects.nonNull(currentUser())) {
-            Page<HistoryTaskDto> adviceListPage = adviceListService.getTaskHistory(SecurityUtils.getCurrentUser(),
+            Page<HistoryTaskDto> adviceListPage = adviceListService.getHistoryTasks(SecurityUtils.getCurrentUser(),
                     new PageRequest(pageNumber - 1, 10));
                 model.addAttribute("historyTasks", adviceListPage);
                 int current = adviceListPage.getNumber() + 1;

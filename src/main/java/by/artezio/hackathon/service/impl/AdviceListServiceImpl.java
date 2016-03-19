@@ -6,7 +6,7 @@ import by.artezio.hackathon.model.AdviceListItem;
 import by.artezio.hackathon.model.User;
 import by.artezio.hackathon.repository.AdviceListRepository;
 import by.artezio.hackathon.service.*;
-import by.artezio.hackathon.service.EmotionService;
+import by.artezio.hackathon.service.dto.ActiveTaskDto;
 import by.artezio.hackathon.service.dto.HistoryTaskDto;
 import by.artezio.hackathon.service.dto.UserEmotionDto;
 import by.artezio.hackathon.service.dto.enumeration.EmotionTypes;
@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -45,9 +44,24 @@ public class AdviceListServiceImpl implements AdviceListService {
     @Autowired
     private UserAdviceService userAdviceService;
 
+    @Autowired
+    private UserService userService;
+
+    @Override
+    public AdviceList findById(Long id) {
+        //TODO impl me
+        return null;
+    }
+
     @Override
     public AdviceList findActiveList(User currentUser) {
         return adviceListRepository.findByUserIdAndEndDateIsNull(currentUser.getId());
+    }
+
+    @Override
+    public ActiveTaskDto findActiveTaskPreview(User user) {
+        //TODO impl me
+        return null;
     }
 
     @Override
@@ -72,13 +86,18 @@ public class AdviceListServiceImpl implements AdviceListService {
     }
 
     @Override
-    public Page<HistoryTaskDto> getHistoryTasks(User user, Pageable pageable) {
-        //todo implement me
-        return new PageImpl<>(Collections.emptyList(), pageable, 0);
+    public void complete(User user, List<Long> adviceIds) {
+        AdviceList list = findActiveList(user);
+        list.setEndDate(new Date());
+        if (adviceIds != null && !adviceIds.isEmpty()) {
+            adviceListItemService.completeItems(adviceIds);
+        }
+        //TODO userService.updateMood(user, list.getItems());
+        saveOrUpdate(list);
     }
 
     @Override
-    public Page<HistoryTaskDto> getTaskHistory(User user, Pageable pageable) {
+    public Page<HistoryTaskDto> getHistoryTasks(User user, Pageable pageable) {
         Page<AdviceList> tasks = adviceListRepository.findByUserIdAndEndDateIsNotNullOrderByEndDateDesc(user.getId(), pageable);
         List<HistoryTaskDto> historyTaskDtos = Collections.emptyList();
         if(Objects.nonNull(tasks) && !tasks.getContent().isEmpty()) {
