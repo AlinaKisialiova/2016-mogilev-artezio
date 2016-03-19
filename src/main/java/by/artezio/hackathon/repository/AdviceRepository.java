@@ -15,5 +15,5 @@ import java.util.List;
  */
 public interface AdviceRepository extends JpaRepository<Advice, Long>, JpaSpecificationExecutor<Advice> {
     @Query(value = "select ad from Advice ad where ad.emotion = :emotion order by RAND()")
-    List<Advice> findByEmotion(@Param("emomtion") String emotion, Pageable pageable);
+    List<Advice> findByEmotion(@Param("emotion") String emotion, Pageable pageable);
 }
