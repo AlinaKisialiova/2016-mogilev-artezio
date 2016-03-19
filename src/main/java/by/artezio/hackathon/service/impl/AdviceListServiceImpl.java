@@ -18,10 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -49,8 +46,7 @@ public class AdviceListServiceImpl implements AdviceListService {
 
     @Override
     public AdviceList findById(Long id) {
-        //TODO impl me
-        return null;
+        return adviceListRepository.findOne(id);
     }
 
     @Override
@@ -60,8 +56,22 @@ public class AdviceListServiceImpl implements AdviceListService {
 
     @Override
     public ActiveTaskDto findActiveTaskPreview(User user) {
-        //TODO impl me
-        return null;
+        AdviceList actvList = adviceListRepository.findByUserIdAndEndDateIsNull(user.getId());
+        if(actvList == null) {
+            return null;
+        }
+
+        ActiveTaskDto activeTaskDto = new ActiveTaskDto();
+        activeTaskDto.setEmotions(emotionService.deserializeUserEmotions(actvList.getCurrentEmotion()));
+
+        List<AdviceListItem> items = actvList.getItems();
+        List<Boolean> booleanList = new ArrayList<>();
+        for (AdviceListItem item : items) {
+            booleanList.add(item.getComplete());
+        }
+        activeTaskDto.setItemComplete(booleanList);
+
+        return activeTaskDto;
     }
 
     @Override

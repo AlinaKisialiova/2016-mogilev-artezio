@@ -28,7 +28,7 @@ public class ProgressController {
 
     @RequestMapping(path = "")
     public String index(Model model) {
-        model.addAttribute("activeTask", adviceListService.findActiveList(SecurityUtils.getCurrentUser()));
+        model.addAttribute("activeTask", adviceListService.findActiveTaskPreview(SecurityUtils.getCurrentUser()));
         model.addAttribute("historyTasks", adviceListService.getHistoryTasks(SecurityUtils.getCurrentUser(),
                 new PageRequest(0, 5)));
         return "progress";

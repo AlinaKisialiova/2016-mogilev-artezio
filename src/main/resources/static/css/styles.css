@@ -2,12 +2,16 @@
     margin-bottom: 0;
 }
 
+.task-progress img {
+    width: 100px;
+}
+
 .task-progress .progress {
     height: 30px;
     margin-top: 35px;
 }
 
-.task-status-done, .task-status-failed {
+.task-status-done, .task-status-failed, .task-status-undefined {
     padding: 12px;
     color: white;
 }
@@ -19,6 +23,11 @@
 .task-status-failed {
     background-color: #d9534f;
 }
+
+.task-status-undefined {
+    background-color: #777777;
+}
+
 
 /* Taking a Task Form */
 
@@ -53,4 +62,3 @@
 #webcamImageForm input {
     display: none;
 }
-
