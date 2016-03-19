@@ -1,5 +1,7 @@
 package by.artezio.hackathon.model;
 
+import by.artezio.hackathon.model.enumeration.GenderEnum;
+
 import javax.persistence.*;
 import java.util.Date;
 
