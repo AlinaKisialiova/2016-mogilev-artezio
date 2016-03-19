@@ -9,48 +9,53 @@
 <div class="jumbotron">
     <div class="container">
         <div class="col-md-4 col-md-offset-4">
-            <form class="form-narrow form-horizontal" th:action="@{/register}" method="post">
+            <form class="form-narrow form-horizontal" th:action="@{/register}" th:object="${user}" method="post">
                 <fieldset>
                     <legend>Регистрация</legend>
 
-                    <strong> <span class="text-danger"></span> </strong>
+                    <strong> <span class="text-danger" th:each="err : ${#fields.errors('${user}')}"
+                                   th:text="${err}"></span> </strong>
 
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
                         <label for="login" class="control-label">Логин</label>
 
                         <div class="controls">
-                            <input type="text" class="form-control" id="login" pattern=".{3,}"
+                            <input type="text" class="form-control" id="login" th:field="*{login}" pattern=".{3,}"
                                    required="" title="Логин должен быть не менее 3 символов"/>
-                            <span class="help-block"></span>
+                                <span class="help-block" th:if="${#fields.hasErrors('login')}"
+                                      th:errors="*{login}"></span>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
                         <label class="control-label" for="email">Email</label>
 
                         <div class="controls">
                             <input name="email" id="email" class="form-control" type="email" required=""/>
-                            <span class="help-block"></span>
+                                <span class="help-block" th:if="${#fields.hasErrors('email')}"
+                                      th:errors="*{email}"></span>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
                         <label class="control-label" for="password">Пароль</label>
 
                         <div class="controls">
                             <input name="password" id="password" class="form-control" type="password" pattern=".{3,}"
                                    required="" title="Пароль должен быть не менее 3 символов"/>
-                            <span class="help-block"></span>
+                                <span class="help-block" th:if="${#fields.hasErrors('password')}"
+                                      th:errors="*{password}"></span>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('retryPassword')}? 'has-error'">
                         <label class="control-label" for="retryPassword">Повторите пароль</label>
 
                         <div class="controls">
                             <input name="retryPassword" id="retryPassword" class="form-control" type="password"
                                    pattern=".{3,}" required="" title="Пароль должен быть не менее 3 символов"/>
-                            <span class="help-block"></span>
+                                <span class="help-block" th:if="${#fields.hasErrors('retryPassword')}"
+                                      th:errors="*{retryPassword}"></span>
                             <span class="text-danger" id="nonEqualPassword"></span>
                         </div>
                         <p></p>
