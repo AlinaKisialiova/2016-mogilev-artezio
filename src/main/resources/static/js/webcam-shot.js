@@ -15,7 +15,7 @@
             image_format: 'jpeg',
             jpeg_quality: 90
         });
-        Webcam.attach('.camera-block');
+        Webcam.attach('#camera-block');
     }
 
     function takeShot() {
