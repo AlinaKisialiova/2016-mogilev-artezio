@@ -2,7 +2,9 @@ package by.artezio.hackathon.service.impl;
 
 import by.artezio.hackathon.model.Advice;
 import by.artezio.hackathon.repository.AdviceRepository;
+import by.artezio.hackathon.service.AdviceSearchStrategy;
 import by.artezio.hackathon.service.AdviceService;
+import by.artezio.hackathon.service.dto.UserEmotionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -19,11 +21,10 @@ import java.util.List;
 public class AdviceServiceImpl implements AdviceService {
 
     @Autowired
-    private AdviceRepository adviceRepository;
+    private AdviceSearchStrategy adviceSearchStrategy;
 
     @Override
-    public List<Advice> findByEmotion(String emotion) {
-        //todo псевдослучайная выборка с учетом веса
-        return adviceRepository.findByEmotion(emotion, new PageRequest(0, 5));
+    public List<Advice> findByEmotions(List<UserEmotionDto> userEmotions) {
+        return adviceSearchStrategy.search(userEmotions);
     }
 }
