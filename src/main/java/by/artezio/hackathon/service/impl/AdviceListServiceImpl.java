@@ -82,6 +82,7 @@ public class AdviceListServiceImpl implements AdviceListService {
         list.setCreateDate(new Date());
         list.setCurrentEmotion(emotionService.serializeUserEmotions(emotions));
         list.setUser(user);
+        list.setScores((short)0);
         list = saveOrUpdate(list);
 
         for (Advice advice : selectedAdvice) {
