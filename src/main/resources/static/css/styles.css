@@ -1,0 +1,22 @@
+.emo-result-table .progress {
+    margin-bottom: 0;
+}
+
+.task-progress .progress {
+    height: 30px;
+    margin-top: 35px;
+}
+
+.task-status-done, .task-status-failed {
+    padding: 12px;
+    color: white;
+}
+
+.task-status-done {
+    background-color: #4cae4c;
+}
+
+.task-status-failed {
+    background-color: #d9534f;
+}
+
