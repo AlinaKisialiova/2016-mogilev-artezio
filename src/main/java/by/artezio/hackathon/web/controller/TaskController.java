@@ -5,10 +5,10 @@ import by.artezio.hackathon.model.AdviceList;
 import by.artezio.hackathon.service.AdviceListService;
 import by.artezio.hackathon.service.AdviceService;
 import by.artezio.hackathon.service.EmotionService;
+import by.artezio.hackathon.service.dto.UploadImageFormDto;
 import by.artezio.hackathon.service.dto.UserEmotionDto;
 import by.artezio.hackathon.util.security.SecurityUtils;
 import by.artezio.hackathon.util.security.UserDetails;
-import by.artezio.hackathon.web.form.UploadImageForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +43,7 @@ public class TaskController {
     }
 
     @RequestMapping(path = "", method = RequestMethod.POST)
-    public String buildPreliminaryList(Model model, UploadImageForm form) {
+    public String buildPreliminaryList(Model model, UploadImageFormDto form) {
 
         MultipartFile image = form.getImage();
         String imageUrl = form.getImageUrl();
@@ -52,7 +52,7 @@ public class TaskController {
         List<UserEmotionDto> emotions;
         if(image.isEmpty()) {
             if(imageUrl.isEmpty()) {
-                if(imageBase64.isEmpty()) {
+                if(imageBase64 == null || imageBase64.isEmpty()) {
                     return "redirect:/task";
                 } else {
                     emotions = emotionService.loadEmotionsByBase64Data(imageBase64);

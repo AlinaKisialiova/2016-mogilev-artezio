@@ -1,8 +1,8 @@
-package by.artezio.hackathon.web.form;
+package by.artezio.hackathon.service.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class UploadImageForm {
+public class UploadImageFormDto {
 
     MultipartFile image;
     String imageUrl;
