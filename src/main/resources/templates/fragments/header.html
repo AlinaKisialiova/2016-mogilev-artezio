@@ -22,7 +22,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="/" th:href="@{/}">Главная</a>
+                            <a href="/" th:href="@{/}" th:if="${currentUser ne null}">Главная</a>
                         </li>
                         <li>
                             <a href="/task" th:href="@{/task}" th:if="${currentUser ne null}">Задание</a>
