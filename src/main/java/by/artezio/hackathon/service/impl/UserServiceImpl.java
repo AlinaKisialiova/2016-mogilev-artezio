@@ -4,6 +4,7 @@ import by.artezio.hackathon.model.User;
 import by.artezio.hackathon.repository.UserRepository;
 import by.artezio.hackathon.service.dto.UserRegistrationDto;
 import by.artezio.hackathon.service.UserService;
+import by.artezio.hackathon.util.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Override
+    public User findCurrentUser() {
+        return userRepository.findOne(SecurityUtils.getCurrentUserId());
+    }
 
     @Override
     public User register(UserRegistrationDto dto) {

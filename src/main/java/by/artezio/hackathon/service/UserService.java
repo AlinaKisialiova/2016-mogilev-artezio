@@ -8,6 +8,8 @@ import by.artezio.hackathon.service.dto.UserRegistrationDto;
  */
 public interface UserService {
 
+    User findCurrentUser();
+
     User register(UserRegistrationDto dto);
 
     Boolean isUserWithEmailOrLoginExist(UserRegistrationDto dto);

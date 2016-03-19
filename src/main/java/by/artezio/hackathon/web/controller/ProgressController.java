@@ -1,6 +1,7 @@
 package by.artezio.hackathon.web.controller;
 
 import by.artezio.hackathon.service.AdviceListService;
+import by.artezio.hackathon.service.UserService;
 import by.artezio.hackathon.util.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +23,9 @@ public class ProgressController {
     @Autowired
     private AdviceListService adviceListService;
 
+    @Autowired
+    private UserService userService;
+
     @ModelAttribute("currentUser")
     public UserDetails currentUser() {
         return SecurityUtils.getCurrentUserDetails();
@@ -33,6 +37,7 @@ public class ProgressController {
         model.addAttribute("activeTask", adviceListService.findActiveTaskPreview(SecurityUtils.getCurrentUser()));
         model.addAttribute("historyTasks", adviceListService.getHistoryTasks(SecurityUtils.getCurrentUser(),
                 new PageRequest(0, 5)));
+        model.addAttribute("userMood", userService.findCurrentUser().getMood());
         return "progress";
     }
 }
