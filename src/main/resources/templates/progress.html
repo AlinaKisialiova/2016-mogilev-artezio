@@ -10,6 +10,17 @@
     </h3>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
+
+            <div th:if="${currentUser.user.mood lt 30}">
+                <img class="progress-mood-icon" src="/images/angry.png" th:src="@{/images/angry.png}" alt="File"/>
+            </div>
+            <div th:if="${currentUser.user.mood gt 30} and ${currentUser.user.mood lt 70}">
+                <img class="progress-mood-icon" src="/images/neutral.png" th:src="@{/images/neutral.png}" alt="File"/>
+            </div>
+            <div th:if="${currentUser.user.mood gt 70}">
+                <img class="progress-mood-icon" src="/images/happiness.png" th:src="@{/images/happiness.png}" alt="File"/>
+            </div>
+
             <div class="progress">
                 <div class="progress-bar" th:style="'width: ' + ${currentUser.user.mood} + '%'"></div>
                 <div th:if="${score ne null}" class="progress-bar progress-bar-success"
